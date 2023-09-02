@@ -31,3 +31,15 @@
         end
     endgenerate
 ```
+#### 4. Assume there is a register with programmable bit width. Try to group registers into groups of 3 bits and sum over all groups.
+```
+    integer s;
+    always @(*) begin
+        ltp_dw_sum_near     = {(DW_BW){1'b0}}; 
+        ltp_dw_sum_al2al    = {(DW_BW){1'b0}};
+        for(s = 0; s < LTP_TRC_BW; s = s + 1) begin: ltp_dw_sum_gen
+            ltp_dw_sum_near     = ltp_dw_sum_near  + ltp_dw_near[s*LRN_INTNSTY +: LRN_INTNSTY];
+            ltp_dw_sum_al2al    = ltp_dw_sum_al2al + ltp_dw_al2al[s*LRN_INTNSTY +: LRN_INTNSTY];
+        end
+    end
+```
